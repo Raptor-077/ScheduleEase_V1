@@ -4,6 +4,8 @@ import { connectDB } from "./config/db.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
 import slotRoutes from "./routes/slotRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+
 
 dotenv.config();
 connectDB();
@@ -15,6 +17,7 @@ app.use(express.json());
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/slots", slotRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 // health
 app.get("/", (req, res) => res.send("NITC Appointments Backend is running"));

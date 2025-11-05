@@ -1,22 +1,13 @@
-// server/routes/authRoutes.js
-const passport = require('passport');
+import express from "express";
+import { oauthLogin, logoutUser } from "../controllers/authController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
-module.exports = app => {
-  app.get(
-    '/auth/google',
-    passport.authenticate('google', {
-      scope: ['profile', 'email']
-    })
-  );
+const router = express.Router();
 
-  app.get('/auth/google/callback', passport.authenticate('google'));
+// ✅ OAuth login route
+router.post("/google-login", oauthLogin);
 
-  app.get('/api/logout', (req, res) => {
-    req.logout();
-    res.send(req.user);
-  });
+// ✅ Logout route
+router.post("/logout", protect, logoutUser);
 
-  app.get('/api/current_user', (req, res) => {
-    res.send(req.user);
-  });
-};
+export default router;

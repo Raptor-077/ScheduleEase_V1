@@ -7,13 +7,3 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 export default mongoose.model("User", userSchema);
-
-
-// server/models/User.js
-const { Schema } = mongoose;
-
-const userSchema2 = new Schema({
-  googleId: String,
-});
-
-//mongoose.model('users', userSchema);
