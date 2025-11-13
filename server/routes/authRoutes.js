@@ -26,11 +26,14 @@ router.get(
 
     // Decide redirect based on email domain
     let redirectURL;
-    if (email.endsWith("@nitc.ac.in")) {
+    if (email === "alina_m250234cs@nitc.ac.in") {
+      redirectURL = "http://localhost:5173/admin"; // Admin email (hardcoded)
+    } else if (email.endsWith("@nitc.ac.in")) {
       redirectURL = "http://localhost:5173/student"; // Internal NITC email
     } else {
       redirectURL = "http://localhost:5173/external"; // External users
-    }
+  }
+
 
     // Redirect to the chosen frontend page
     res.redirect(redirectURL);

@@ -8,7 +8,7 @@ import appointmentRoutes from "./routes/appointmentRoutes.js";
 import slotRoutes from "./routes/slotRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import "./config/passport.js"; // 👈 load passport config
+
 
 import MongoStore from "connect-mongo";
 
@@ -16,7 +16,9 @@ import MongoStore from "connect-mongo";
 
 
 dotenv.config();
-connectDB();
+await connectDB();
+
+import "./config/passport.js"; // 👈 load passport config
 
 const app = express();
 

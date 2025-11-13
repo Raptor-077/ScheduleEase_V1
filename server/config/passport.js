@@ -13,26 +13,42 @@ passport.use(
       callbackURL: "http://localhost:5000/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      try {
-        const email = profile.emails[0].value;
-        let user = await User.findOne({ email });
+  try {
+    const email = profile.emails[0].value;
+    console.log("🔍 Google login:", email);
 
-        if (!user) {
-          user = await User.create({
-            name: profile.displayName,
-            email,
-            google_id: profile.id,
-            profileImage: profile.photos[0]?.value,
-            role: email.endsWith("@nitc.ac.in") ? "internal user" : "external user",
-          });
-        }
+    let user = await User.findOne({ email });
 
-        return done(null, user);
-      } catch (err) {
-        console.error("Error in Google Strategy:", err);
-        return done(err, null);
-      }
-    }
+    if (!user) {
+  console.log("🆕 Creating new user in MongoDB...");
+  try {
+    user = await User.create({
+      name: profile.displayName,
+      email,
+      google_id: profile.id,
+      profileImage: profile.photos[0]?.value,
+      role:
+        email === "alina_m250234cs@nitc.ac.in"
+          ? "admin"
+          : email.endsWith("@nitc.ac.in")
+          ? "internal user"
+          : "external user",
+    });
+    console.log("✅ User created successfully:", user.email);
+  } catch (createErr) {
+    console.error("❌ Failed to create user:", createErr);
+  }
+} else {
+  console.log("👤 Existing user found:", user.email);
+}
+
+
+    return done(null, user);
+  } catch (err) {
+    console.error("Error in Google Strategy:", err);
+    return done(err, null);
+  }
+}
   )
 );
 
